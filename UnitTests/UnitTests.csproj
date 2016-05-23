@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="KompasKeyboardPlugin\BoardCreatorTest.cs" />
     <Compile Include="KompasKeyboardPlugin\BodyCreatorTest.cs" />
+    <Compile Include="KompasKeyboardPlugin\CommutationCreatorTest.cs" />
     <Compile Include="KompasKeyboardPlugin\KeyboardParametrsStorageTest.cs" />
+    <Compile Include="KompasKeyboardPlugin\PanelCreatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

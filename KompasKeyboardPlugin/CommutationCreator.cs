@@ -1,4 +1,5 @@
-﻿using Kompas6API5;
+﻿using System;
+using Kompas6API5;
 using Kompas6Constants3D;
 
 namespace KompasKeyboardPlugin
@@ -21,6 +22,11 @@ namespace KompasKeyboardPlugin
         public override void Build(ksDocument3D document3D,
             KeyboardParametersStorage data)
         {
+            if (document3D == null || data == null)
+            {
+                throw new NullReferenceException("Метод ссылается на null объект.");
+            }
+
             int countXLR = data.CommutationXLR;
             int countTRS = data.CommutationTRS;
             int countMIDI = data.CommutationMIDI;

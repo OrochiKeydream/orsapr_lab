@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Kompas6API5;
 using Kompas6Constants3D;
 
@@ -17,6 +18,11 @@ namespace KompasKeyboardPlugin
         public override void Build(ksDocument3D document3D,
             KeyboardParametersStorage data)
         {
+            if (document3D == null || data == null)
+            {
+                throw new NullReferenceException("Метод ссылается на null объект.");
+            }
+
             if (data.PanelDisplay == true)
             {
                 DisplayBuild(document3D, data);
