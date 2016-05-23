@@ -5,9 +5,15 @@ using Kompas6API5;
 
 namespace UnitTests.KompasKeyboardPlugin
 {
+    /// <summary>
+    /// Модульное тестирование класса PanelCreator.
+    /// </summary>
     [TestFixture]
     public class PanelCreatorTest
     {
+        /// <summary>
+        /// Тестирование метода Build.
+        /// </summary>
         [Test]
         [TestCase(TestName = "Тест с передачей null объекта")]
         public void BuildTest()
