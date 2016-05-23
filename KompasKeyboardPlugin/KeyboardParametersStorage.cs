@@ -223,7 +223,7 @@ namespace KompasKeyboardPlugin
         /// <param name="commutationMIDISockets">Количество разъемов MIDI.</param>
         /// <param name="keyboardType">Тип клавиатуры.</param>
         /// <param name="keyboardKeyAmount">Количество клавиш.</param>
-        public int Record(double bodyLength, double bodyHeight,
+        public void Record(double bodyLength, double bodyHeight,
             double bodyDepth, bool panelDisplay, bool panelButtons,
             bool panelKnobs, bool panelWheel, int commutationXLRSockets,
             int commutationTRSSockets, int commutationMIDISockets,
@@ -232,22 +232,16 @@ namespace KompasKeyboardPlugin
             if (!NewValidation(bodyHeight, bodyHeightMax, bodyHeightMin,
                 bodyHeightString))
             {
-                return 1;
+                throw new ArgumentException("Неверно задан параметр.");
             }
-            else
-            {
-                _bodyHeight = bodyHeight;
-            }
+            _bodyHeight = bodyHeight;
 
             if (!NewValidation(bodyDepth, bodyDepthMax, bodyDepthMin,
                 bodyDepthString))
             {
-                return 1;
+                throw new ArgumentException("Неверно задан параметр.");
             }
-            else
-            {
-                _bodyDepth = bodyDepth;
-            }
+            _bodyDepth = bodyDepth;
 
             switch (keyAmount)
             {
@@ -256,54 +250,48 @@ namespace KompasKeyboardPlugin
                         if (!NewValidation(bodyLength, bodyLengthLowMax,
                             bodyLengthLowMin, bodyLenghtString))
                         {
-                            return 1;
+                            throw new ArgumentException("Неверно задан" +
+                                                        " параметр.");
                         }
-                        else
-                        {
-                            _bodyLength = bodyLength;
-                            _keyboardKeyAmount = keyAmountLow;
-                            _boardLength = boardLengthLow;
-                            _whiteKeyAmount = whiteKeyAmountLow;
-                            _blackKeyAmount = blackKeyAmountLow;
+                        _bodyLength = bodyLength;
+                        _keyboardKeyAmount = keyAmountLow;
+                        _boardLength = boardLengthLow;
+                        _whiteKeyAmount = whiteKeyAmountLow;
+                        _blackKeyAmount = blackKeyAmountLow;
 
-                            break;
-                        }
+                        break;
                     }
                 case KeysAmountMode.Middle:
                     {
                         if (!NewValidation(bodyLength, bodyLengthMiddleMax,
                             bodyLengthMiddleMin, bodyLenghtString))
                         {
-                            return 1;
+                            throw new ArgumentException("Неверно задан" +
+                                                        " параметр.");
                         }
-                        else
-                        {
-                            _bodyLength = bodyLength;
-                            _keyboardKeyAmount = keyAmountMiddle;
-                            _boardLength = boardLengthMiddle;
-                            _whiteKeyAmount = whiteKeyAmountMiddle;
-                            _blackKeyAmount = blackKeyAmountMiddle;
+                        _bodyLength = bodyLength;
+                        _keyboardKeyAmount = keyAmountMiddle;
+                        _boardLength = boardLengthMiddle;
+                        _whiteKeyAmount = whiteKeyAmountMiddle;
+                        _blackKeyAmount = blackKeyAmountMiddle;
 
-                            break;
-                        }
+                        break;
                     }
                 case KeysAmountMode.High:
                     {
                         if (!NewValidation(bodyLength, bodyLengthHighMax,
                             bodyLengthHighMin, bodyLenghtString))
                         {
-                            return 1;
+                            throw new ArgumentException("Неверно задан" +
+                                                        " параметр.");
                         }
-                        else
-                        {
-                            _bodyLength = bodyLength;
-                            _keyboardKeyAmount = keyAmountHigh;
-                            _boardLength = boardLengthHigh;
-                            _whiteKeyAmount = whiteKeyAmountHigh;
-                            _blackKeyAmount = blackKeyAmountHigh;
+                        _bodyLength = bodyLength;
+                        _keyboardKeyAmount = keyAmountHigh;
+                        _boardLength = boardLengthHigh;
+                        _whiteKeyAmount = whiteKeyAmountHigh;
+                        _blackKeyAmount = blackKeyAmountHigh;
 
-                            break;
-                        }
+                        break;
                     }
             }
 
@@ -343,34 +331,23 @@ namespace KompasKeyboardPlugin
             if (!NewValidation(commutationXLRSockets, xlrSocketsMax,
                 xlrSocketsMin, xlrSocketsString))
             {
-                return 1;
+                throw new ArgumentException("Неверно задан параметр.");
             }
-            else
-            {
-                _commutationXLRSockets = commutationXLRSockets;
-            }
+            _commutationXLRSockets = commutationXLRSockets;
 
             if (!NewValidation(commutationTRSSockets, trsSocketsMax,
                 trsSocketsMin, trsSocketsString))
             {
-                return 1;
+                throw new ArgumentException("Неверно задан параметр.");
             }
-            else
-            {
-                _commutationTRSSockets = commutationTRSSockets;
-            }
+            _commutationTRSSockets = commutationTRSSockets;
 
             if (!NewValidation(commutationMIDISockets, midiSocketsMax,
                 midiSocketsMin, midiSocketsString))
             {
-                return 1;
+                throw new ArgumentException("Неверно задан параметр.");
             }
-            else
-            {
-                _commutationMIDISockets = commutationMIDISockets;
-            }
-
-            return 0;
+            _commutationMIDISockets = commutationMIDISockets;
         }
 
         /// <summary>

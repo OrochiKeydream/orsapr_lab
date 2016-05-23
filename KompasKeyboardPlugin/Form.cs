@@ -67,21 +67,26 @@ namespace KompasKeyboardPlugin
                 textCommutationMIDISockets))
             {
                 // Запись введенных данных.
-                if (_manager.KeyboardData.Record(Convert.ToDouble(textBodyLength.Text),
-                    Convert.ToDouble(textBodyHeight.Text),
-                    Convert.ToDouble(textBodyDepth.Text),
-                    checkPanelDisplay.Checked,
-                    checkPanelButtons.Checked,
-                    checkPanelKnobs.Checked,
-                    checkPanelWheel.Checked,
-                    Convert.ToInt32(textCommutationXLRSockets.Text),
-                    Convert.ToInt32(textCommutationTRSSockets.Text),
-                    Convert.ToInt32(textCommutationMIDISockets.Text),
-                    CheckKeyType(), CheckKeyAmount()) == 0)
+                try
                 {
-                    _manager.KeyboardKompas.CreateDocument();
-                    _manager.ModelBuild();
+                    _manager.KeyboardData.Record(Convert.ToDouble(textBodyLength.Text),
+                        Convert.ToDouble(textBodyHeight.Text),
+                        Convert.ToDouble(textBodyDepth.Text),
+                        checkPanelDisplay.Checked,
+                        checkPanelButtons.Checked,
+                        checkPanelKnobs.Checked,
+                        checkPanelWheel.Checked,
+                        Convert.ToInt32(textCommutationXLRSockets.Text),
+                        Convert.ToInt32(textCommutationTRSSockets.Text),
+                        Convert.ToInt32(textCommutationMIDISockets.Text),
+                        CheckKeyType(), CheckKeyAmount());
                 }
+                catch (ArgumentException)
+                {
+                    throw new ArgumentException();
+                }
+                _manager.KeyboardKompas.CreateDocument();
+                _manager.ModelBuild();
             }
         }
 
