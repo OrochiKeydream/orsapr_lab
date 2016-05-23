@@ -229,14 +229,14 @@ namespace KompasKeyboardPlugin
             int commutationTRSSockets, int commutationMIDISockets,
             KeyboardType keyboardType, KeysAmountMode keyAmount)
         {
-            if (!NewValidation(bodyHeight, bodyHeightMax, bodyHeightMin,
+            if (!Validation(bodyHeight, bodyHeightMax, bodyHeightMin,
                 bodyHeightString))
             {
                 throw new ArgumentException("Неверно задан параметр.");
             }
             _bodyHeight = bodyHeight;
 
-            if (!NewValidation(bodyDepth, bodyDepthMax, bodyDepthMin,
+            if (!Validation(bodyDepth, bodyDepthMax, bodyDepthMin,
                 bodyDepthString))
             {
                 throw new ArgumentException("Неверно задан параметр.");
@@ -247,7 +247,7 @@ namespace KompasKeyboardPlugin
             {
                 case KeysAmountMode.Low:
                     {
-                        if (!NewValidation(bodyLength, bodyLengthLowMax,
+                        if (!Validation(bodyLength, bodyLengthLowMax,
                             bodyLengthLowMin, bodyLenghtString))
                         {
                             throw new ArgumentException("Неверно задан" +
@@ -263,7 +263,7 @@ namespace KompasKeyboardPlugin
                     }
                 case KeysAmountMode.Middle:
                     {
-                        if (!NewValidation(bodyLength, bodyLengthMiddleMax,
+                        if (!Validation(bodyLength, bodyLengthMiddleMax,
                             bodyLengthMiddleMin, bodyLenghtString))
                         {
                             throw new ArgumentException("Неверно задан" +
@@ -279,7 +279,7 @@ namespace KompasKeyboardPlugin
                     }
                 case KeysAmountMode.High:
                     {
-                        if (!NewValidation(bodyLength, bodyLengthHighMax,
+                        if (!Validation(bodyLength, bodyLengthHighMax,
                             bodyLengthHighMin, bodyLenghtString))
                         {
                             throw new ArgumentException("Неверно задан" +
@@ -328,95 +328,26 @@ namespace KompasKeyboardPlugin
                 _panelWheel = WheelSetup.Disable;
             }
 
-            if (!NewValidation(commutationXLRSockets, xlrSocketsMax,
+            if (!Validation(commutationXLRSockets, xlrSocketsMax,
                 xlrSocketsMin, xlrSocketsString))
             {
                 throw new ArgumentException("Неверно задан параметр.");
             }
             _commutationXLRSockets = commutationXLRSockets;
 
-            if (!NewValidation(commutationTRSSockets, trsSocketsMax,
+            if (!Validation(commutationTRSSockets, trsSocketsMax,
                 trsSocketsMin, trsSocketsString))
             {
                 throw new ArgumentException("Неверно задан параметр.");
             }
             _commutationTRSSockets = commutationTRSSockets;
 
-            if (!NewValidation(commutationMIDISockets, midiSocketsMax,
+            if (!Validation(commutationMIDISockets, midiSocketsMax,
                 midiSocketsMin, midiSocketsString))
             {
                 throw new ArgumentException("Неверно задан параметр.");
             }
             _commutationMIDISockets = commutationMIDISockets;
-        }
-
-        /// <summary>
-        /// Метод валидации введенных пользователем данных.
-        /// </summary>
-        /// <returns></returns>
-        public bool Validation()
-        {
-            if (_keyboardKeyAmount == keyAmountHigh)
-            {
-                if (_bodyLength > bodyLengthHighMax || _bodyLength
-                    < bodyLengthHighMin)
-                {
-                    MessageBox.Show("Длина корпуса при количестве клавиш 88 должна быть в диапазоне от 125 до 150.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-            if (_keyboardKeyAmount == keyAmountMiddle)
-            {
-                if (_bodyLength > bodyLengthMiddleMax || _bodyLength
-                    < bodyLengthMiddleMin)
-                {
-                    MessageBox.Show("Длина корпуса при количестве клавиш 76 должна быть в диапазоне от 110 до 140.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-            if (_keyboardKeyAmount == keyAmountLow)
-            {
-                if (_bodyLength > bodyLengthLowMax || _bodyLength
-                    < bodyLengthLowMin)
-                {
-                    MessageBox.Show("Длина корпуса при количестве клавиш 61 должна быть в диапазоне от 90 до 130.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-            if (_bodyHeight > bodyHeightMax || _bodyHeight < bodyHeightMin)
-            {
-                MessageBox.Show("Высота корпуса должна быть в диапазоне от 5 до 20.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (_bodyDepth > bodyDepthMax || _bodyDepth < bodyDepthMin)
-            {
-                MessageBox.Show("Глубина корпуса должна быть в диапазоне от 20 до 40.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (_commutationXLRSockets > xlrSocketsMax || _commutationXLRSockets < xlrSocketsMin)
-            {
-                MessageBox.Show("Количество разъемов XLR должно быть в диапазоне от 0 до 4.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (_commutationTRSSockets > trsSocketsMax || _commutationTRSSockets < trsSocketsMin)
-            {
-                MessageBox.Show("Количество разъемов TRS должно быть в диапазоне от 0 до 6.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (_commutationMIDISockets > midiSocketsMax || _commutationMIDISockets < midiSocketsMin)
-            {
-                MessageBox.Show("Количество разъемов MIDI должно быть в диапазоне от 0 до 3.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            return true;
         }
 
         /// <summary>
@@ -427,7 +358,8 @@ namespace KompasKeyboardPlugin
         /// <param name="minValue">Минимальное значение</param>
         /// <param name="stringValue">Строка с именем параметра</param>
         /// <returns></returns>
-        private bool NewValidation(double currentValue, double maxValue, double minValue, string stringValue)
+        private bool Validation(double currentValue, double maxValue,
+            double minValue, string stringValue)
         {
             if (currentValue > maxValue || currentValue < minValue)
             {
@@ -451,7 +383,8 @@ namespace KompasKeyboardPlugin
         /// <param name="minValue">Минимальное значение</param>
         /// <param name="stringValue">Строка с именем параметра</param>
         /// <returns></returns>
-        private bool NewValidation(int currentValue, int maxValue, int minValue, string stringValue)
+        private bool Validation(int currentValue, int maxValue,
+            int minValue, string stringValue)
         {
             if (currentValue > maxValue || currentValue < minValue)
             {
