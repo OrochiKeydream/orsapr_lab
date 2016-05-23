@@ -89,7 +89,7 @@
     <Compile Include="PanelCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Enumerations\Wheel.cs" />
+    <Compile Include="Enumerations\WheelSetup.cs" />
     <EmbeddedResource Include="Form.resx">
       <DependentUpon>Form.cs</DependentUpon>
     </EmbeddedResource>
