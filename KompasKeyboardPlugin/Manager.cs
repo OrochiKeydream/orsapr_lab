@@ -1,4 +1,6 @@
-﻿namespace KompasKeyboardPlugin
+﻿using Kompas6API5;
+
+namespace KompasKeyboardPlugin
 {
     /// <summary>
     /// Класс, управляющий процессом создания модели.
@@ -70,6 +72,17 @@
                 _keyboardDataObject);
             _commutationObject.Build(_keyboardKsObject.KsDocumentObj,
                 _keyboardDataObject);
+        }
+
+        public void OpenKompas()
+        {
+            KeyboardKompas.OpenKompas3D();
+        }
+
+        public void KsObjectSetNull()
+        {
+            KeyboardKompas.KompasObj = null;
+            KeyboardKompas.KsDocumentObj = null;
         }
     }
 }

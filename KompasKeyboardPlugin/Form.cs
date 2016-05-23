@@ -80,13 +80,14 @@ namespace KompasKeyboardPlugin
                         Convert.ToInt32(textCommutationTRSSockets.Text),
                         Convert.ToInt32(textCommutationMIDISockets.Text),
                         CheckKeyType(), CheckKeyAmount());
+                    _manager.KeyboardKompas.CreateDocument();
+                    _manager.ModelBuild();
                 }
                 catch (ArgumentException)
                 {
-                    throw new ArgumentException();
+                    MessageBox.Show("Неверно задан параметр.");
                 }
-                _manager.KeyboardKompas.CreateDocument();
-                _manager.ModelBuild();
+                
             }
         }
 
@@ -152,13 +153,12 @@ namespace KompasKeyboardPlugin
         {
             try
             {
-                _manager.KeyboardKompas.OpenKompas3D();
+                _manager.OpenKompas();
             }
             catch (Exception)
             {
-                _manager.KeyboardKompas.KompasObj = null;
-                _manager.KeyboardKompas.KsDocumentObj = null;
-                _manager.KeyboardKompas.OpenKompas3D();
+                _manager.KsObjectSetNull();
+                _manager.OpenKompas();
             }
         }
 
