@@ -6,7 +6,7 @@ using Kompas6API5;
 namespace UnitTests.KompasKeyboardPlugin
 {
     [TestFixture]
-    public class BodyCreatorTest
+    public class BordCreatorTest
     {
         [Test]
         [TestCase(TestName = "Тест с передачей null объекта")]
@@ -14,7 +14,7 @@ namespace UnitTests.KompasKeyboardPlugin
         {
             KeyboardParametersStorage keyboardDataNull = null;
             ksDocument3D document3DNull = null;
-            
+
             var bodyCreatorObject = new BodyCreator();
             var ex = Assert.Throws<NullReferenceException>(()
                 => bodyCreatorObject.Build(document3DNull,
