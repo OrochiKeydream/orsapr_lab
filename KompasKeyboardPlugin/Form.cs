@@ -87,6 +87,10 @@ namespace KompasKeyboardPlugin
                 {
                     MessageBox.Show("Неверно задан параметр.");
                 }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("КОМПАС-3D не открыт.");
+                }
                 
             }
         }
