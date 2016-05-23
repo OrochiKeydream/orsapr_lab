@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Kompas6API5;
 using Kompas6Constants3D;
 
@@ -7,7 +8,7 @@ namespace KompasKeyboardPlugin
     /// <summary>
     /// Класс, создающий тело клавиатуры.
     /// </summary>
-    class BodyCreator : KeyboardPartBase
+    public class BodyCreator : KeyboardPartBase
     {
         /// <summary>
         /// Метод, создающий тело клавиатуры.
@@ -17,6 +18,10 @@ namespace KompasKeyboardPlugin
         public override void Build(ksDocument3D document3D,
             KeyboardParametersStorage data)
         {
+            if (document3D == null || data == null)
+            {
+                throw new NullReferenceException("Метод ссылается на null объект.");
+            }
             part = (ksPart)document3D.GetPart((short)Part_Type.pTop_Part);
             if (part != null)
             {
