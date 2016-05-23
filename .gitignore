@@ -1,0 +1,6 @@
+.vs/
+KompasKeyboardPlugin/bin
+KompasKeyboardPlugin/obj
+UnitTests/bin
+UnitTests/obj
+packages/
