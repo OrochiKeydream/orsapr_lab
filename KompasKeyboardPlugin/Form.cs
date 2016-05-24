@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.IO;
+using System.Collections.Generic;
 
 namespace KompasKeyboardPlugin
 {
@@ -182,6 +185,43 @@ namespace KompasKeyboardPlugin
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Метод, производящий нагрузочное тестирование плагина.
+        /// </summary>
+        private void StressTesting()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            var listTimes = new List<string>();
+            for (int i = 0; i < 200; i++)
+            {
+                stopwatch.Start();
+                buttonBuild_Click(null, new EventArgs());
+
+                stopwatch.Stop();
+                listTimes.Add(stopwatch.Elapsed.ToString());
+                stopwatch.Reset();
+            }
+            
+            StreamWriter file = new StreamWriter(@"C:\Users\Владимир\Documents\StressTestLog.txt");
+            {
+                foreach (string line in listTimes)
+                {
+                    file.WriteLine(line);
+                }   
+            }
+            file.Close();
+        }
+
+        /// <summary>
+        /// Метод, обрабатывающий событие нажатия на кнопку "Тест".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            StressTesting();
         }
     }
 }
