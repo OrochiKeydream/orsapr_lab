@@ -22,12 +22,9 @@ namespace UnitTests.KompasKeyboardPlugin
             ksDocument3D document3DNull = null;
             
             var bodyCreatorObject = new BodyCreator();
-            var ex = Assert.Throws<NullReferenceException>(()
+            Assert.Throws<NullReferenceException>(()
                 => bodyCreatorObject.Build(document3DNull,
                 keyboardDataNull));
-
-            Assert.That(ex.Message, Is.EqualTo("Метод ссылается на null" +
-                                               " объект."));
         }
     }
 }
