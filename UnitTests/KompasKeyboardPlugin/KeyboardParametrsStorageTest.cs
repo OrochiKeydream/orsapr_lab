@@ -45,12 +45,17 @@ namespace UnitTests.KompasKeyboardPlugin
         {
             var keyboardParametersStorage = new KeyboardParametersStorage();
 
-            var ex = Assert.Throws<ArgumentException>(()
+            //var ex = Assert.Throws<ArgumentException>(()
+            //    => keyboardParametersStorage.Record(bodyLength, bodyHeight,
+            //    bodyDepth, panelDisplay, panelButtons, panelKnobs,
+            //    panelWheel, commutationXLRSockets, commutationTRSSockets,
+            //    commutationMIDISockets, keyboardType, keyAmount));
+            //Assert.That(ex.Message, Is.EqualTo("Неверно задан параметр."));
+            Assert.Throws<ArgumentException>(()
                 => keyboardParametersStorage.Record(bodyLength, bodyHeight,
                 bodyDepth, panelDisplay, panelButtons, panelKnobs,
                 panelWheel, commutationXLRSockets, commutationTRSSockets,
                 commutationMIDISockets, keyboardType, keyAmount));
-            Assert.That(ex.Message, Is.EqualTo("Неверно задан параметр."));
         }
 
         /// <summary>
