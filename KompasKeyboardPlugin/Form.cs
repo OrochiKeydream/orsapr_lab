@@ -62,131 +62,110 @@ namespace KompasKeyboardPlugin
         /// <param name="e"></param>
         private void buttonBuild_Click(object sender, EventArgs e)
         {
-            if (TextValid(textBodyLength,
+            List<TextBox> textBoxList = new List<TextBox>()
+            {
+                textBodyLength,
                 textBodyHeight,
                 textBodyDepth,
                 textCommutationXLRSockets,
                 textCommutationTRSSockets,
-                textCommutationMIDISockets))
-            {
-                // Запись введенных данных.
-                //
-                try
-                {
-                    _manager.KeyboardData.Record(Convert.ToDouble(textBodyLength.Text),
-                        Convert.ToDouble(textBodyHeight.Text),
-                        Convert.ToDouble(textBodyDepth.Text),
-                        checkPanelDisplay.Checked,
-                        checkPanelButtons.Checked,
-                        checkPanelKnobs.Checked,
-                        checkPanelWheel.Checked,
-                        Convert.ToInt32(textCommutationXLRSockets.Text),
-                        Convert.ToInt32(textCommutationTRSSockets.Text),
-                        Convert.ToInt32(textCommutationMIDISockets.Text),
-                        CheckKeyType(), CheckKeyAmount());
+                textCommutationMIDISockets
+            };
 
-                    if (checkPanelWheel.Checked)
+            List<string> textBoxNameList = new List<string>()
+            {
+                "\"Длина корпуса\"",
+                "\"Высота корпуса\"",
+                "\"Глубина корпуса\"",
+                "\"Количество разъемов XLR\"",
+                "\"Количество разъемов TRS\"",
+                "\"Количество разъемов MIDI\""
+            };
+
+            try
+            {
+                for (int i = 0; i < textBoxList.Count; i++)
+                {
+                    TextValid(textBoxList[i], textBoxNameList[i]);
+                }
+                _manager.KeyboardData.Record(Convert.ToDouble(textBodyLength.Text),
+                    Convert.ToDouble(textBodyHeight.Text),
+                    Convert.ToDouble(textBodyDepth.Text),
+                    checkPanelDisplay.Checked,
+                    checkPanelButtons.Checked,
+                    checkPanelKnobs.Checked,
+                    checkPanelWheel.Checked,
+                    Convert.ToInt32(textCommutationXLRSockets.Text),
+                    Convert.ToInt32(textCommutationTRSSockets.Text),
+                    Convert.ToInt32(textCommutationMIDISockets.Text),
+                    CheckKeyType(), CheckKeyAmount());
+
+                if (checkPanelWheel.Checked)
+                {
+                    if ((_manager.KeyboardData.BodyLength
+                        - _manager.KeyboardData.BoardLength) / 2 >= 5.0)
                     {
-                        if ((_manager.KeyboardData.BodyLength
-                            - _manager.KeyboardData.BoardLength) / 2 >= 5.0)
-                        {
-                            _manager.KeyboardData.PanelWheel
-                                = WheelSetup.EnableFront;
-                        }
-                        else
-                        {
-                            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                            DialogResult result;
-                            result = MessageBox.Show("Нет места для колеса " +
-                                                     "модуляции. Расположить" +
-                                                     " колесо сверху?", "Внимание",
-                                                     buttons,
-                                                     MessageBoxIcon.Question);
-                            if (result == DialogResult.Yes)
-                            {
-                                _manager.KeyboardData.PanelWheel
-                                    = WheelSetup.EnableBack;
-                            }
-                            else
-                            {
-                                _manager.KeyboardData.PanelWheel
-                                    = WheelSetup.Disable;
-                            }
-                        }
+                        _manager.KeyboardData.PanelWheel
+                            = WheelSetup.EnableFront;
                     }
                     else
                     {
-                        _manager.KeyboardData.PanelWheel
-                            = WheelSetup.Disable;
+                        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                        DialogResult result;
+                        result = MessageBox.Show("Нет места для колеса " +
+                                                    "модуляции. Расположить" +
+                                                    " колесо сверху?", "Внимание",
+                                                    buttons,
+                                                    MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            _manager.KeyboardData.PanelWheel
+                                = WheelSetup.EnableBack;
+                        }
+                        else
+                        {
+                            _manager.KeyboardData.PanelWheel
+                                = WheelSetup.Disable;
+                        }
                     }
-                    _manager.KeyboardKompas.CreateDocument();
-                    _manager.ModelBuild();
                 }
-                
-                catch (ArgumentException ex)
+                else
                 {
-                    MessageBox.Show(ex.Message, "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _manager.KeyboardData.PanelWheel
+                        = WheelSetup.Disable;
                 }
-                catch (NullReferenceException)
-                {
-                    MessageBox.Show("КОМПАС-3D не открыт.");
-                }
-                
+                _manager.KeyboardKompas.CreateDocument();
+                _manager.ModelBuild();
+            }  
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("КОМПАС-3D не открыт.", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Метод проверки формы на корректность форматирования введенных
-        /// пользователем данных.
+        /// Метод, проверяюзий корректность формата вводимых данных.
         /// </summary>
-        /// <param name="tbLength">Длина корпуса.</param>
-        /// <param name="tbHeight">Высота корпуса.</param>
-        /// <param name="tbDepth">Глубина корпуса.</param>
-        /// <param name="tbXLR">Количество разъемов XLR.</param>
-        /// <param name="tbTRS">Количество разъемов TRS.</param>
-        /// <param name="tbMIDI">Количество разъемов MIDI.</param>
-        /// <returns></returns>
-        private bool TextValid(TextBox tbLength, TextBox tbHeight,
-            TextBox tbDepth, TextBox tbXLR, TextBox tbTRS, TextBox tbMIDI)
+        /// <param name="textBox">Текстовое поле</param>
+        /// <param name="name">Название текстового поля</param>
+        void TextValid(TextBox textBox, string name)
         {
-            if (!TextValidRegularExpression(tbLength.Text))
+            if (!TextValidRegularExpression(Convert.ToString(textBox)))
             {
-                MessageBox.Show("Текстовое поле \"Длина корпуса\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                throw new InvalidDataException($"Текстовое поле {name} " +
+                                               $"заполнено некорректно.");
             }
-            if (!TextValidRegularExpression(tbHeight.Text))
-            {
-                MessageBox.Show("Текстовое поле \"Высота корпуса\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (!TextValidRegularExpression(tbDepth.Text))
-            {
-                MessageBox.Show("Текстовое поле \"Высота корпуса\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (!TextValidRegularExpression(tbXLR.Text))
-            {
-                MessageBox.Show("Текстовое поле \"Количество разъемов XLR\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (!TextValidRegularExpression(tbTRS.Text))
-            {
-                MessageBox.Show("Текстовое поле \"Количество разъемов TRS\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (!TextValidRegularExpression(tbMIDI.Text))
-            {
-                MessageBox.Show("Текстовое поле \"Количество разъемов MIDI\" заполнено некорректно.",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            return true;
         }
 
         /// <summary>
