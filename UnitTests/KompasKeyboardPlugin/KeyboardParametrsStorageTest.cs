@@ -37,22 +37,15 @@ namespace UnitTests.KompasKeyboardPlugin
             true, true, true, int.MinValue, int.MinValue, int.MinValue,
             KeyboardType.Piano, KeysAmountMode.High,
             TestName = "Негативный тест с минимальными значениями")]
-        public void RecordTest(double bodyLength, double bodyHeight,
+        public void RecordTestNegative(double bodyLength, double bodyHeight,
             double bodyDepth, bool panelDisplay, bool panelButtons,
             bool panelKnobs, bool panelWheel, int commutationXLRSockets,
             int commutationTRSSockets, int commutationMIDISockets,
             KeyboardType keyboardType, KeysAmountMode keyAmount)
         {
-            var keyboardParametersStorage = new KeyboardParametersStorage();
-
-            //var ex = Assert.Throws<ArgumentException>(()
-            //    => keyboardParametersStorage.Record(bodyLength, bodyHeight,
-            //    bodyDepth, panelDisplay, panelButtons, panelKnobs,
-            //    panelWheel, commutationXLRSockets, commutationTRSSockets,
-            //    commutationMIDISockets, keyboardType, keyAmount));
-            //Assert.That(ex.Message, Is.EqualTo("Неверно задан параметр."));
+            var obj = new KeyboardParametersStorage();
             Assert.Throws<ArgumentException>(()
-                => keyboardParametersStorage.Record(bodyLength, bodyHeight,
+                => obj.Record(bodyLength, bodyHeight,
                 bodyDepth, panelDisplay, panelButtons, panelKnobs,
                 panelWheel, commutationXLRSockets, commutationTRSSockets,
                 commutationMIDISockets, keyboardType, keyAmount));
@@ -86,28 +79,23 @@ namespace UnitTests.KompasKeyboardPlugin
         [TestCase(130, 10, 30, true, true, true, true, 1, 1, 1,
             KeyboardType.Piano, KeysAmountMode.Low,
             TestName = "Позитивный тест (61 клавиша)")]
-        public void RecordTest1(double bodyLength, double bodyHeight,
+        public void RecordTestPositive(double bodyLength, double bodyHeight,
             double bodyDepth, bool panelDisplay, bool panelButtons,
             bool panelKnobs, bool panelWheel, int commutationXLRSockets,
             int commutationTRSSockets, int commutationMIDISockets,
             KeyboardType keyboardType, KeysAmountMode keyAmount)
         {
-            var keyboardParametersStorage = new KeyboardParametersStorage();
-            keyboardParametersStorage.Record(bodyLength, bodyHeight,
-                bodyDepth, panelDisplay, panelButtons, panelKnobs,
-                panelWheel, commutationXLRSockets, commutationTRSSockets,
-                commutationMIDISockets, keyboardType, keyAmount);
-            Assert.AreEqual(keyboardParametersStorage.BodyLength,
-                bodyLength);
-            Assert.AreEqual(keyboardParametersStorage.BodyHeight,
-                bodyHeight);
-            Assert.AreEqual(keyboardParametersStorage.BodyDepth, bodyDepth);
-            Assert.AreEqual(keyboardParametersStorage.CommutationXLR,
-                commutationXLRSockets);
-            Assert.AreEqual(keyboardParametersStorage.CommutationTRS,
-                commutationTRSSockets);
-            Assert.AreEqual(keyboardParametersStorage.CommutationMIDI,
-                commutationMIDISockets);
+            var obj = new KeyboardParametersStorage();
+            obj.Record(bodyLength, bodyHeight, bodyDepth, panelDisplay,
+                panelButtons, panelKnobs, panelWheel, commutationXLRSockets,
+                commutationTRSSockets, commutationMIDISockets, keyboardType,
+                keyAmount);
+            Assert.AreEqual(obj.BodyLength, bodyLength);
+            Assert.AreEqual(obj.BodyHeight, bodyHeight);
+            Assert.AreEqual(obj.BodyDepth, bodyDepth);
+            Assert.AreEqual(obj.CommutationXLR, commutationXLRSockets);
+            Assert.AreEqual(obj.CommutationTRS, commutationTRSSockets);
+            Assert.AreEqual(obj.CommutationMIDI, commutationMIDISockets);
         }
     }
 }

@@ -71,27 +71,9 @@ namespace KompasKeyboardPlugin
         private double _bodyHeight;
         private double _bodyDepth;
 
-        public double BodyLength
-        {
-            get
-            {
-                return _bodyLength;
-            }
-        }
-        public double BodyHeight
-        {
-            get
-            {
-                return _bodyHeight;
-            }
-        }
-        public double BodyDepth
-        {
-            get
-            {
-                return _bodyDepth;
-            }
-        }
+        public double BodyLength => _bodyLength;
+        public double BodyHeight => _bodyHeight;
+        public double BodyDepth => _bodyDepth;
 
         /// <summary>
         /// Поля, отражающие наличие элементов на панели управления.
@@ -388,9 +370,7 @@ namespace KompasKeyboardPlugin
         {
             if (currentValue > maxValue || currentValue < minValue)
             {
-                MessageBox.Show("Параметр " + stringValue
-                    + " должен быть в диапазоне от " + minValue + " до "
-                    + maxValue + ".", "Ошибка", MessageBoxButtons.OK,
+                MessageBox.Show($"Параметр {stringValue} должен быть в диапазоне от {minValue} до {maxValue}.", "Ошибка", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return false;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Drawing;
 using Kompas6API5;
 using Kompas6Constants3D;
@@ -28,12 +29,6 @@ namespace KompasKeyboardPlugin
         /// </summary>
         private double _marginLeft;
 
-        /// <summary>
-        /// Данная сущность рисует линии для эскиза в зависимости от
-        /// выбранной клавиши.
-        /// </summary>
-        private KeyCreatorBase _key;
-
         #endregion
 
         /// <summary>
@@ -50,205 +45,94 @@ namespace KompasKeyboardPlugin
             }
 
             // Текущая обрабатываемая клавиша.
-            KeyNote currentKey;
+            KeyNote currentKey = SetCurrentNote(data);
+            Method2(document3D, data, currentKey);
+        }
 
+        /// <summary>
+        /// Метод, устанавливающий начальную клавишу для клавиатуры.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private KeyNote SetCurrentNote(KeyboardParametersStorage data)
+        {
             switch (data.KeyboardKeyAmount)
             {
                 case 88:
-                    {
-                        // Если у клавиатуры 88 клавиш, то первая клавиша -
-                        // ЛЯ (A).
-                        currentKey = KeyNote.A;
-
-                        switch (data.KeyboardType)
-                        {
-                            case KeyboardType.Piano:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Middle);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-
-                                    // Если первая клавиша ДО (C), то первая
-                                    // черная клавиша - РЕ-БЕМОЛЬ (Db).
-                                    // Если первая клавиша ЛЯ (A), то первая
-                                    // черная клавиша - СИ-БЕМОЛЬ (Bb).
-                                    //
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight);
-
-                                    break;
-                                }
-                            case KeyboardType.Synth:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Bottom);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 2.0, KeyLevel.Middle);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight);
-
-                                    break;
-                                }
-                        }
-                        break;
-                    }
+                {
+                    return KeyNote.A;
+                }
                 case 76:
-                    {
-                        // Если у клавиатуры 76 клавиш, то первая клавиша -
-                        // ЛЯ (A).
-                        currentKey = KeyNote.A;
-
-                        switch (data.KeyboardType)
-                        {
-                            case KeyboardType.Piano:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Middle);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight, 0);
-
-                                    break;
-                                }
-                            case KeyboardType.Synth:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Bottom);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 2.0, KeyLevel.Middle);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight);
-
-                                    break;
-                                }
-                        }
-                        break;
-                    }
+                {
+                    return KeyNote.A;
+                }
                 case 61:
+                {
+                    return KeyNote.C;
+                }
+            }
+            throw new Exception();
+        }
+
+        void Method2(ksDocument3D document3D,
+            KeyboardParametersStorage data, KeyNote currentKey)
+        {
+            switch (data.KeyboardType)
+            {
+                case KeyboardType.Piano:
+                {
+                    KeyBuild(document3D, data, currentKey, true,
+                        _keyboardHeight, KeyLevel.Middle);
+
+                    KeyBuild(document3D, data, currentKey, true, 1.5);
+
+                    // Если первая клавиша ДО (C), то первая черная клавиша -
+                    // РЕ -БЕМОЛЬ (Db).
+                    // Если первая клавиша ЛЯ (A), то первая черная клавиша -
+                    // СИ -БЕМОЛЬ (Bb).
+                    //
+                    if (currentKey == KeyNote.C)
                     {
-                        // Если у клавиатуры 61 клавиша, то первая клавиша -
-                        // ДО.
-                        currentKey = KeyNote.C;
-
-                        switch (data.KeyboardType)
+                        currentKey = KeyNote.Db;
+                    }
+                    else
+                    {
+                        if (currentKey == KeyNote.A)
                         {
-                            case KeyboardType.Piano:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Middle);
-
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight);
-                                    break;
-                                }
-                            case KeyboardType.Synth:
-                                {
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, _keyboardHeight,
-                                        KeyLevel.Bottom);
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 2.0, KeyLevel.Middle);
-                                    KeyBuild(document3D, data, currentKey,
-                                        true, 1.5, KeyLevel.Top);
-                                    if (currentKey == KeyNote.C)
-                                    {
-                                        currentKey = KeyNote.Db;
-                                    }
-                                    else
-                                    {
-                                        if (currentKey == KeyNote.A)
-                                        {
-                                            currentKey = KeyNote.Bb;
-                                        }
-                                    }
-                                    KeyBuild(document3D, data, currentKey,
-                                        false, _keyboardHeight, 0);
-                                    break;
-                                }
+                            currentKey = KeyNote.Bb;
                         }
                     }
+
+                    KeyBuild(document3D, data, currentKey, false,
+                        _keyboardHeight);
                     break;
+                }
+                case KeyboardType.Synth:
+                {
+                    KeyBuild(document3D, data, currentKey, true,
+                        _keyboardHeight, KeyLevel.Bottom);
+
+                    KeyBuild(document3D, data, currentKey, true, 2.0,
+                        KeyLevel.Middle);
+
+                    KeyBuild(document3D, data, currentKey, true, 1.5);
+
+                    if (currentKey == KeyNote.C)
+                    {
+                        currentKey = KeyNote.Db;
+                    }
+                    else
+                    {
+                        if (currentKey == KeyNote.A)
+                        {
+                            currentKey = KeyNote.Bb;
+                        }
+                    }
+
+                    KeyBuild(document3D, data, currentKey, false,
+                        _keyboardHeight);
+                    break;
+                }
             }
         }
 
@@ -260,79 +144,61 @@ namespace KompasKeyboardPlugin
         /// <param name="currentKey">Текущая клавиша.</param>
         /// <param name="count">Номер текущей клавиши.</param>
         /// <param name="marginFront">Фронтальный отступ.</param>
-        private void KeyLineDraw(ksDocument2D sketch,
+        private KeyCreatorBase KeyLineDraw(ksDocument2D sketch,
             KeyboardParametersStorage data, KeyNote currentKey, int count,
             double marginFront)
         {
             switch (currentKey)
             {
                 case KeyNote.C:
+                {
+                    if (count + 1 == data.WhiteKeyAmount)
                     {
-                        if (count + 1 == data.WhiteKeyAmount)
-                        {
-                            _key = new KeyCreatorCAdditional(sketch,
-                                _marginLeft, marginFront);
-                            _key.Build();
-                        }
-                        else
-                        {
-                            _key = new KeyCreatorC(sketch, _marginLeft,
-                                marginFront);
-                            _key.Build();
-                        }
-                        break;
+                        return new KeyCreatorCAdditional(sketch,
+                            _marginLeft, marginFront);
                     }
+                    return new KeyCreatorC(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.D:
-                    {
-                        _key = new KeyCreatorD(sketch, _marginLeft,
-                            marginFront);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorD(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.E:
-                    {
-                        _key = new KeyCreatorE(sketch, _marginLeft,
-                            marginFront);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorE(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.F:
-                    {
-                        _key = new KeyCreatorF(sketch, _marginLeft,
-                            marginFront);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorF(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.G:
-                    {
-                        _key = new KeyCreatorG(sketch, _marginLeft,
-                            marginFront);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorG(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.A:
+                {
+                    if (count == 0)
                     {
-                        if (count == 0)
-                        {
-                            _key = new KeyCreatorAAdditional(sketch,
-                                _marginLeft, marginFront);
-                            _key.Build();
-                        }
-                        else
-                        {
-                            _key = new KeyCreatorA(sketch, _marginLeft,
-                                marginFront);
-                            _key.Build();
-                        }
-                        break;
+                        return new KeyCreatorAAdditional(sketch,
+                            _marginLeft, marginFront);
                     }
+                    return new KeyCreatorA(sketch, _marginLeft,
+                        marginFront);
+                }
                 case KeyNote.B:
-                    {
-                        _key = new KeyCreatorB(sketch, _marginLeft,
-                            marginFront);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorB(sketch, _marginLeft,
+                        marginFront);
+                }
+                default:
+                {
+                    throw new Exception("TODO");
+                }
             }
         }
 
@@ -342,42 +208,34 @@ namespace KompasKeyboardPlugin
         /// <param name="sketch">Указатель на эскиз.</param>
         /// <param name="data">Указатель на данные.</param>
         /// <param name="currentKey">Текущая клавиша.</param>
-        /// <param name="count">Номер текущей клавиши.</param>
-        private void KeyLineDraw(ksDocument2D sketch,
-            KeyboardParametersStorage data, KeyNote currentKey)
+        private KeyCreatorBase KeyLineDraw(ksDocument2D sketch, KeyNote currentKey)
         {
             switch (currentKey)
             {
                 case KeyNote.Db:
-                    {
-                        _key = new KeyCreatorDb(sketch, _marginLeft);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorDb(sketch, _marginLeft);
+                }
                 case KeyNote.Eb:
-                    {
-                        _key = new KeyCreatorEb(sketch, _marginLeft);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorEb(sketch, _marginLeft);
+                }
                 case KeyNote.Gb:
-                    {
-                        _key = new KeyCreatorGb(sketch, _marginLeft);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorGb(sketch, _marginLeft);
+                }
                 case KeyNote.Ab:
-                    {
-                        _key = new KeyCreatorAb(sketch, _marginLeft);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorAb(sketch, _marginLeft);
+                }
                 case KeyNote.Bb:
-                    {
-                        _key = new KeyCreatorBb(sketch, _marginLeft);
-                        _key.Build();
-                        break;
-                    }
+                {
+                    return new KeyCreatorBb(sketch, _marginLeft);
+                }
+                default:
+                {
+                    throw new Exception("TODO");
+                }
             }
         }
 
@@ -398,26 +256,16 @@ namespace KompasKeyboardPlugin
             // Установка фронтального отступа в зависимости от выбранного
             // уровня клавиш.
             //
-            double marginTop = 0;
+            double marginTop;
 
-            switch (keyLevel)
+            var keyMarginTopDictionary = new Dictionary<KeyLevel, double>()
             {
-                case KeyLevel.Bottom:
-                    {
-                        marginTop = 3.6;
-                        break;
-                    }
-                case KeyLevel.Middle:
-                    {
-                        marginTop = 0.6;
-                        break;
-                    }
-                case KeyLevel.Top:
-                    {
-                        marginTop = 0.5;
-                        break;
-                    }
-            }
+                { KeyLevel.Bottom, 3.6 },
+                { KeyLevel.Middle, 0.6 },
+                { KeyLevel.Top, 0.5 }
+            };
+
+            marginTop = keyMarginTopDictionary[keyLevel];
 
             // Сброс отступа.
             _marginLeft = -(data.BodyLength / 2) + (data.BoardLength / 2)
@@ -455,7 +303,7 @@ namespace KompasKeyboardPlugin
                                 count++)
                             {
                                 KeyLineDraw(sketchEdit, data, currentKey,
-                                    count, marginTop);
+                                    count, marginTop).Build();
                                 _marginLeft = _marginLeft - 2.2 - _space;
 
                                 // Сброс последовательности клавиш.
@@ -495,7 +343,7 @@ namespace KompasKeyboardPlugin
                                     _marginLeft = _marginLeft - 2.2
                                         - _space;
                                 }
-                                KeyLineDraw(sketchEdit, data, currentKey);
+                                KeyLineDraw(sketchEdit, currentKey).Build();
 
                                 // Следующей после СИ-БЕМОЛЬ черной клавишей
                                 // является РЕ-БЕМОЛЬ.
@@ -576,29 +424,27 @@ namespace KompasKeyboardPlugin
             }
         }
 
-        /// <summary>
-        /// Метод, строящий эскиз для вырезания скоса у черных клавиш.
-        /// </summary>
-        /// <param name="document3D">Указатель на активный документ КОМПАС-3D.</param>
-        /// <param name="data">Указатель на данные.</param>
-        private void BlackKeyCutSketch(ksDocument3D document3D,
-            KeyboardParametersStorage data)
+        private void OffsetSketchSet(ksDocument3D document3D,
+            KeyboardParametersStorage data, string sketchName,
+            double offset, Obj3dType obj3DType)
         {
-            part = (ksPart)document3D.GetPart((short)Part_Type.pTop_Part);
+            SketchType sketchType = SketchType.BlackKeyCut;
 
-            var entityOffsetPlane = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planeOffset);
-            var entitySketch = (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
-            entitySketch.name = "Черные клавиши";
+
+            part = (ksPart) document3D.GetPart((short) Part_Type.pTop_Part);
+
+            var entityOffsetPlane = (ksEntity) part.NewEntity((short) Obj3dType.o3d_planeOffset);
+            var entitySketch = (ksEntity) part.NewEntity((short) Obj3dType.o3d_sketch);
+            entitySketch.name = sketchName;
             if (entityOffsetPlane != null)
             {
-                var offsetDef = (ksPlaneOffsetDefinition)entityOffsetPlane.GetDefinition();
+                var offsetDef = (ksPlaneOffsetDefinition) entityOffsetPlane.GetDefinition();
                 if (offsetDef != null)
                 {
                     offsetDef.direction = true;
-                    offsetDef.offset = (data.BodyLength / 2)
-                        - (data.BoardLength / 2) + _space;
+                    offsetDef.offset = offset;
 
-                    var basePlane = (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_planeYOZ);
+                    var basePlane = (ksEntity) part.GetDefaultEntity((short) obj3DType);
                     basePlane.name = "Начальная плоскость";
 
                     offsetDef.SetPlane(basePlane);
@@ -615,27 +461,58 @@ namespace KompasKeyboardPlugin
 
                         var sketchEdit = (ksDocument2D)sketchDef.BeginEdit();
 
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 0.1, 5.5,
-                            -data.BodyHeight + 0.1, 6.5, 1);
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 0.1, 6.5,
-                            -data.BodyHeight + 1.4, 5.5, 1);
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 1.4, 5.5,
-                            -data.BodyHeight + 0.1, 5.5, 1);
-
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 0.1, 15.5,
-                            -data.BodyHeight + 0.1, 15.0, 1);
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 0.1, 15.0,
-                            -data.BodyHeight + 1.375, 15.0, 1);
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 1.375, 15.0,
-                            -data.BodyHeight + 1.375, 15.5, 1);
-                        sketchEdit.ksLineSeg(-data.BodyHeight + 1.375, 15.5,
-                            -data.BodyHeight + 0.1, 15.5, 1);
+                        LineDraw(sketchEdit, data, sketchType);
 
                         sketchDef.EndEdit();
                         BlackKeyCut(part, entitySketch, data);
                     }
                 }
             }
+        }
+
+        private void LineDraw(ksDocument2D sketch,
+            KeyboardParametersStorage data, SketchType sketchType)
+        {
+            switch (sketchType)
+            {
+                case SketchType.BlackKeyCut:
+                {
+                        sketch.ksLineSeg(-data.BodyHeight + 0.1, 5.5,
+                            -data.BodyHeight + 0.1, 6.5, 1);
+                        sketch.ksLineSeg(-data.BodyHeight + 0.1, 6.5,
+                            -data.BodyHeight + 1.4, 5.5, 1);
+                        sketch.ksLineSeg(-data.BodyHeight + 1.4, 5.5,
+                            -data.BodyHeight + 0.1, 5.5, 1);
+
+                        sketch.ksLineSeg(-data.BodyHeight + 0.1, 15.5,
+                            -data.BodyHeight + 0.1, 15.0, 1);
+                        sketch.ksLineSeg(-data.BodyHeight + 0.1, 15.0,
+                            -data.BodyHeight + 1.375, 15.0, 1);
+                        sketch.ksLineSeg(-data.BodyHeight + 1.375, 15.0,
+                            -data.BodyHeight + 1.375, 15.5, 1);
+                        sketch.ksLineSeg(-data.BodyHeight + 1.375, 15.5,
+                            -data.BodyHeight + 0.1, 15.5, 1);
+                        break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод, строящий эскиз для вырезания скоса у черных клавиш.
+        /// </summary>
+        /// <param name="document3D">Указатель на активный документ КОМПАС-3D.</param>
+        /// <param name="data">Указатель на данные.</param>
+        private void BlackKeyCutSketch(ksDocument3D document3D,
+            KeyboardParametersStorage data)
+        {
+            string name = "Черные клавиши";
+            double offset = (data.BodyLength/2) - (data.BoardLength/2)
+                            + _space;
+            OffsetSketchSet(document3D, data, name, offset, Obj3dType.o3d_planeYOZ);
         }
 
         /// <summary>

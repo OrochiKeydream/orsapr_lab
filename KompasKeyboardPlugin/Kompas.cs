@@ -9,50 +9,31 @@ namespace KompasKeyboardPlugin
     public class Kompas
     {
         /// <summary>
-        /// Поля класса.
+        /// 
         /// </summary>
-        private KompasObject _kompasObject;
-        private ksDocument3D _ksDocumentObject;
+        public KompasObject KompasObj { get; set; }
 
-        public KompasObject KompasObj
-        {
-            get
-            {
-                return _kompasObject;
-            }
-            set
-            {
-                _kompasObject = value;
-            }
-        }
-        public ksDocument3D KsDocumentObj
-        {
-            get
-            {
-                return _ksDocumentObject;
-            }
-            set
-            {
-                _ksDocumentObject = value;
-            }
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ksDocument3D KsDocumentObj { get; set; }
 
         /// <summary>
         /// Метод, открывающий программу KOMPAS-3D.
         /// </summary>
         public void OpenKompas3D()
         {
-            if (_kompasObject == null)
+            if (KompasObj == null)
             {
                 var type = Type.GetTypeFromProgID("KOMPAS.Application.5");
-                _kompasObject = (KompasObject)Activator.CreateInstance(type);
+                KompasObj = (KompasObject)Activator.CreateInstance(type);
             }
-            if (_kompasObject != null)
+            if (KompasObj != null)
             {
                 try
                 {
-                    _kompasObject.Visible = true;
-                    _kompasObject.ActivateControllerAPI();
+                    KompasObj.Visible = true;
+                    KompasObj.ActivateControllerAPI();
                 }
                 catch (Exception)
                 {
@@ -68,14 +49,14 @@ namespace KompasKeyboardPlugin
         {
             try
             {
-                if(_kompasObject != null)
+                if(KompasObj != null)
                 {
                     CloseDocument();
-                    if (_ksDocumentObject == null)
+                    if (KsDocumentObj == null)
                     {
-                        _ksDocumentObject = (ksDocument3D) _kompasObject.Document3D();
-                        _ksDocumentObject.Create(false, false);
-                        _ksDocumentObject = (ksDocument3D)_kompasObject.ActiveDocument3D();
+                        KsDocumentObj = (ksDocument3D) KompasObj.Document3D();
+                        KsDocumentObj.Create(false, false);
+                        KsDocumentObj = (ksDocument3D)KompasObj.ActiveDocument3D();
                     }
                 }
                 else
@@ -94,10 +75,10 @@ namespace KompasKeyboardPlugin
         /// </summary>
         public void CloseDocument()
         {
-            if(_ksDocumentObject != null)
+            if(KsDocumentObj != null)
             {
-                _ksDocumentObject.close();
-                _ksDocumentObject = null;
+                KsDocumentObj.close();
+                KsDocumentObj = null;
             }
         }
 
@@ -106,13 +87,13 @@ namespace KompasKeyboardPlugin
         /// </summary>
         public void CloseKompas3D()
         {
-            if (_ksDocumentObject != null)
+            if (KsDocumentObj != null)
             {
                 CloseDocument();
             }
             try
             {
-                _kompasObject.Quit();
+                KompasObj.Quit();
             }
             catch
             {

@@ -57,6 +57,7 @@
     <Compile Include="BoardCreator.cs" />
     <Compile Include="BodyCreator.cs" />
     <Compile Include="CommutationCreator.cs" />
+    <Compile Include="Enumerations\SketchType.cs" />
     <Compile Include="Form.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -16,15 +16,14 @@ namespace UnitTests.KompasKeyboardPlugin
         /// </summary>
         [Test]
         [TestCase(TestName = "Тест с передачей null объекта")]
-        public void BuildTest()
+        public void BuildTestNegative()
         {
             KeyboardParametersStorage keyboardDataNull = null;
             ksDocument3D document3DNull = null;
 
-            var boardCreatorObject = new BoardCreator();
+            var obj = new BoardCreator();
             Assert.Throws<NullReferenceException>(()
-                => boardCreatorObject.Build(document3DNull,
-                    keyboardDataNull));
+                => obj.Build(document3DNull, keyboardDataNull));
         }
     }
 }

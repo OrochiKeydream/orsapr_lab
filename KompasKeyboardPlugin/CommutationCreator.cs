@@ -27,10 +27,6 @@ namespace KompasKeyboardPlugin
                 throw new NullReferenceException("Метод ссылается на null объект.");
             }
 
-            int countXLR = data.CommutationXLR;
-            int countTRS = data.CommutationTRS;
-            int countMIDI = data.CommutationMIDI;
-
             XLRBuild(document3D, data);
             TRSBuild(document3D, data);
             MIDIBuild(document3D, data);
