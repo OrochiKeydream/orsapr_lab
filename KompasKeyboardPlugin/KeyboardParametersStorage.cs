@@ -86,7 +86,11 @@ namespace KompasKeyboardPlugin
         public bool PanelDisplay => _panelDisplay;
         public bool PanelButtons => _panelButtons;
         public bool PanelKnobs => _panelKnobs;
-        public WheelSetup PanelWheel => _panelWheel;
+        public WheelSetup PanelWheel
+        {
+            get { return _panelWheel; }
+            set { _panelWheel = value; }
+        }
 
         /// <summary>
         /// Поля, отражающие количество разъемов коммутационной панели.
@@ -208,35 +212,6 @@ namespace KompasKeyboardPlugin
 
             _keyboardType = keyboardType;
 
-            if (panelWheel)
-            {
-                if (_bodyLength - _boardLength / 2 >= 5.0)
-                {
-                    _panelWheel = WheelSetup.EnableFront;
-                }
-                else
-                {
-                    MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                    DialogResult result;
-                    result = MessageBox.Show("Нет места для колеса " +
-                                             "модуляции. Расположить" +
-                                             " колесо сверху?", "Внимание",
-                                             buttons,
-                                             MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-                        _panelWheel = WheelSetup.EnableBack;
-                    }
-                    else
-                    {
-                        _panelWheel = WheelSetup.Disable;
-                    }
-                }
-            }
-            else
-            {
-                _panelWheel = WheelSetup.Disable;
-            }
 
             if (!Validation(commutationXLRSockets, xlrSocketsMax,
                 xlrSocketsMin, xlrSocketsString))

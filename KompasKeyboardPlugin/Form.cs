@@ -70,6 +70,7 @@ namespace KompasKeyboardPlugin
                 textCommutationMIDISockets))
             {
                 // Запись введенных данных.
+                //
                 try
                 {
                     _manager.KeyboardData.Record(Convert.ToDouble(textBodyLength.Text),
@@ -83,9 +84,45 @@ namespace KompasKeyboardPlugin
                         Convert.ToInt32(textCommutationTRSSockets.Text),
                         Convert.ToInt32(textCommutationMIDISockets.Text),
                         CheckKeyType(), CheckKeyAmount());
+
+                    if (checkPanelWheel.Checked)
+                    {
+                        if ((_manager.KeyboardData.BodyLength
+                            - _manager.KeyboardData.BoardLength) / 2 >= 5.0)
+                        {
+                            _manager.KeyboardData.PanelWheel
+                                = WheelSetup.EnableFront;
+                        }
+                        else
+                        {
+                            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                            DialogResult result;
+                            result = MessageBox.Show("Нет места для колеса " +
+                                                     "модуляции. Расположить" +
+                                                     " колесо сверху?", "Внимание",
+                                                     buttons,
+                                                     MessageBoxIcon.Question);
+                            if (result == DialogResult.Yes)
+                            {
+                                _manager.KeyboardData.PanelWheel
+                                    = WheelSetup.EnableBack;
+                            }
+                            else
+                            {
+                                _manager.KeyboardData.PanelWheel
+                                    = WheelSetup.Disable;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _manager.KeyboardData.PanelWheel
+                            = WheelSetup.Disable;
+                    }
                     _manager.KeyboardKompas.CreateDocument();
                     _manager.ModelBuild();
                 }
+                
                 catch (ArgumentException ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка",
