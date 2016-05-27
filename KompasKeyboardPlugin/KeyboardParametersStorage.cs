@@ -83,34 +83,10 @@ namespace KompasKeyboardPlugin
         private bool _panelKnobs;
         private WheelSetup _panelWheel;
 
-        public bool PanelDisplay
-        {
-            get
-            {
-                return _panelDisplay;
-            }
-        }
-        public bool PanelButtons
-        {
-            get
-            {
-                return _panelButtons;
-            }
-        }
-        public bool PanelKnobs
-        {
-            get
-            {
-                return _panelKnobs;
-            }
-        }
-        public WheelSetup PanelWheel
-        {
-            get
-            {
-                return _panelWheel;
-            }
-        }
+        public bool PanelDisplay => _panelDisplay;
+        public bool PanelButtons => _panelButtons;
+        public bool PanelKnobs => _panelKnobs;
+        public WheelSetup PanelWheel => _panelWheel;
 
         /// <summary>
         /// Поля, отражающие количество разъемов коммутационной панели.
@@ -119,74 +95,26 @@ namespace KompasKeyboardPlugin
         private int _commutationTRSSockets;
         private int _commutationMIDISockets;
 
-        public int CommutationXLR
-        {
-            get
-            {
-                return _commutationXLRSockets;
-            }
-        }
-        public int CommutationTRS
-        {
-            get
-            {
-                return _commutationTRSSockets;
-            }
-        }
-        public int CommutationMIDI
-        {
-            get
-            {
-                return _commutationMIDISockets;
-            }
-        }
+        public int CommutationXLR => _commutationXLRSockets;
+        public int CommutationTRS => _commutationTRSSockets;
+        public int CommutationMIDI => _commutationMIDISockets;
 
         /// <summary>
         /// Поля, содержащие параметры клавиатурной секции.
         /// </summary>
-        private KeyboardType _keyboardType;     // Тип клавиатуры.
-        private int _keyboardKeyAmount;         // Количество клавиш.
-        private double _boardLength;            // Длина клавиатурной секции.
+        private KeyboardType _keyboardType;
+        private int _keyboardKeyAmount;
+        private double _boardLength;
 
         private int _whiteKeyAmount;
         private int _blackKeyAmount;
 
-        public KeyboardType KeyboardType
-        {
-            get
-            {
-                return _keyboardType;
-            }
-        }
-        public int KeyboardKeyAmount
-        {
-            get
-            {
-                return _keyboardKeyAmount;
-            }
-        }
-        public double BoardLength
-        {
-            get
-            {
-                return _boardLength;
-            }
-        }
+        public KeyboardType KeyboardType => _keyboardType;
+        public int KeyboardKeyAmount => _keyboardKeyAmount;
+        public double BoardLength => _boardLength;
 
-        public int WhiteKeyAmount
-        {
-            get
-            {
-                return _whiteKeyAmount;
-            }
-        }
-        public int BlackKeyAmount
-        {
-            get
-            {
-                return _blackKeyAmount;
-            }
-        }
+        public int WhiteKeyAmount => _whiteKeyAmount;
+        public int BlackKeyAmount => _blackKeyAmount;
 
         #endregion
 
@@ -214,14 +142,14 @@ namespace KompasKeyboardPlugin
             if (!Validation(bodyHeight, bodyHeightMax, bodyHeightMin,
                 bodyHeightString))
             {
-                throw new ArgumentException("Неверно задан параметр.");
+                throw new ArgumentException();
             }
             _bodyHeight = bodyHeight;
 
             if (!Validation(bodyDepth, bodyDepthMax, bodyDepthMin,
                 bodyDepthString))
             {
-                throw new ArgumentException("Неверно задан параметр.");
+                throw new ArgumentException();
             }
             _bodyDepth = bodyDepth;
 
@@ -232,8 +160,7 @@ namespace KompasKeyboardPlugin
                         if (!Validation(bodyLength, bodyLengthLowMax,
                             bodyLengthLowMin, bodyLenghtString))
                         {
-                            throw new ArgumentException("Неверно задан" +
-                                                        " параметр.");
+                            throw new ArgumentException();
                         }
                         _bodyLength = bodyLength;
                         _keyboardKeyAmount = keyAmountLow;
@@ -248,8 +175,7 @@ namespace KompasKeyboardPlugin
                         if (!Validation(bodyLength, bodyLengthMiddleMax,
                             bodyLengthMiddleMin, bodyLenghtString))
                         {
-                            throw new ArgumentException("Неверно задан" +
-                                                        " параметр.");
+                            throw new ArgumentException();
                         }
                         _bodyLength = bodyLength;
                         _keyboardKeyAmount = keyAmountMiddle;
@@ -264,8 +190,7 @@ namespace KompasKeyboardPlugin
                         if (!Validation(bodyLength, bodyLengthHighMax,
                             bodyLengthHighMin, bodyLenghtString))
                         {
-                            throw new ArgumentException("Неверно задан" +
-                                                        " параметр.");
+                            throw new ArgumentException();
                         }
                         _bodyLength = bodyLength;
                         _keyboardKeyAmount = keyAmountHigh;
@@ -293,8 +218,11 @@ namespace KompasKeyboardPlugin
                 {
                     MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                     DialogResult result;
-                    result = MessageBox.Show("Нет места для колеса модуляции. Расположить колесо сверху?",
-                        "Внимание", buttons, MessageBoxIcon.Question);
+                    result = MessageBox.Show("Нет места для колеса " +
+                                             "модуляции. Расположить" +
+                                             " колесо сверху?", "Внимание",
+                                             buttons,
+                                             MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         _panelWheel = WheelSetup.EnableBack;
@@ -313,21 +241,21 @@ namespace KompasKeyboardPlugin
             if (!Validation(commutationXLRSockets, xlrSocketsMax,
                 xlrSocketsMin, xlrSocketsString))
             {
-                throw new ArgumentException("Неверно задан параметр.");
+                throw new ArgumentException();
             }
             _commutationXLRSockets = commutationXLRSockets;
 
             if (!Validation(commutationTRSSockets, trsSocketsMax,
                 trsSocketsMin, trsSocketsString))
             {
-                throw new ArgumentException("Неверно задан параметр.");
+                throw new ArgumentException();
             }
             _commutationTRSSockets = commutationTRSSockets;
 
             if (!Validation(commutationMIDISockets, midiSocketsMax,
                 midiSocketsMin, midiSocketsString))
             {
-                throw new ArgumentException("Неверно задан параметр.");
+                throw new ArgumentException();
             }
             _commutationMIDISockets = commutationMIDISockets;
         }
@@ -345,16 +273,11 @@ namespace KompasKeyboardPlugin
         {
             if (currentValue > maxValue || currentValue < minValue)
             {
-                MessageBox.Show("Параметр " + stringValue
-                    + " должен быть в диапазоне от " + minValue + " до "
-                    + maxValue + ".", "Ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return false;
+                throw new ArgumentException($"Параметр {stringValue} " +
+                                            $"должен быть в диапазоне от " +
+                                            $"{minValue} до {maxValue}.");
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         /// <summary>
@@ -370,14 +293,11 @@ namespace KompasKeyboardPlugin
         {
             if (currentValue > maxValue || currentValue < minValue)
             {
-                MessageBox.Show($"Параметр {stringValue} должен быть в диапазоне от {minValue} до {maxValue}.", "Ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return false;
+                throw new ArgumentException($"Параметра {stringValue} " +
+                                            $"должен быть в диапазоне от " +
+                                            $"{minValue} до {maxValue}.");
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 }

@@ -46,7 +46,8 @@ namespace KompasKeyboardPlugin
 
             // Текущая обрабатываемая клавиша.
             KeyNote currentKey = SetCurrentNote(data);
-            Method2(document3D, data, currentKey);
+
+            KeyBuild(document3D, data, currentKey);
         }
 
         /// <summary>
@@ -74,17 +75,17 @@ namespace KompasKeyboardPlugin
             throw new Exception();
         }
 
-        void Method2(ksDocument3D document3D,
+        void KeyBuild(ksDocument3D document3D,
             KeyboardParametersStorage data, KeyNote currentKey)
         {
             switch (data.KeyboardType)
             {
                 case KeyboardType.Piano:
                 {
-                    KeyBuild(document3D, data, currentKey, true,
+                    KeyPartBuild(document3D, data, currentKey, true,
                         _keyboardHeight, KeyLevel.Middle);
 
-                    KeyBuild(document3D, data, currentKey, true, 1.5);
+                    KeyPartBuild(document3D, data, currentKey, true, 1.5);
 
                     // Если первая клавиша ДО (C), то первая черная клавиша -
                     // РЕ -БЕМОЛЬ (Db).
@@ -103,19 +104,19 @@ namespace KompasKeyboardPlugin
                         }
                     }
 
-                    KeyBuild(document3D, data, currentKey, false,
+                    KeyPartBuild(document3D, data, currentKey, false,
                         _keyboardHeight);
                     break;
                 }
                 case KeyboardType.Synth:
                 {
-                    KeyBuild(document3D, data, currentKey, true,
+                    KeyPartBuild(document3D, data, currentKey, true,
                         _keyboardHeight, KeyLevel.Bottom);
 
-                    KeyBuild(document3D, data, currentKey, true, 2.0,
+                    KeyPartBuild(document3D, data, currentKey, true, 2.0,
                         KeyLevel.Middle);
 
-                    KeyBuild(document3D, data, currentKey, true, 1.5);
+                    KeyPartBuild(document3D, data, currentKey, true, 1.5);
 
                     if (currentKey == KeyNote.C)
                     {
@@ -129,7 +130,7 @@ namespace KompasKeyboardPlugin
                         }
                     }
 
-                    KeyBuild(document3D, data, currentKey, false,
+                    KeyPartBuild(document3D, data, currentKey, false,
                         _keyboardHeight);
                     break;
                 }
@@ -248,7 +249,7 @@ namespace KompasKeyboardPlugin
         /// <param name="isWhiteKey">Принадлежность к белым клавишам.</param>
         /// <param name="keyboardHeight">Высота клавиатурной секции.</param>
         /// <param name="keyLevel">Уровень клавиши.</param>
-        private void KeyBuild(ksDocument3D document3D,
+        private void KeyPartBuild(ksDocument3D document3D,
             KeyboardParametersStorage data, KeyNote currentKey,
             bool isWhiteKey, double keyboardHeight,
             KeyLevel keyLevel = KeyLevel.Top)

@@ -86,9 +86,10 @@ namespace KompasKeyboardPlugin
                     _manager.KeyboardKompas.CreateDocument();
                     _manager.ModelBuild();
                 }
-                catch (ArgumentException)
+                catch (ArgumentException ex)
                 {
-                    MessageBox.Show("Неверно задан параметр.");
+                    MessageBox.Show(ex.Message, "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (NullReferenceException)
                 {
